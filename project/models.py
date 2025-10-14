@@ -67,7 +67,7 @@ class Project(models.Model):
     )
 
     def __str__(self):
-        return f"{self.pk} - {self.title}"
+        return f"{self.title} ({self.pk})"
 
 class ProjectAttachment(models.Model):
     # project image attachment
