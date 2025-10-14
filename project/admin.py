@@ -24,6 +24,7 @@ class StackAdmin(admin.ModelAdmin):
     list_display = ('project__title',)
     search_fields = ('project__title',)
     list_filter = ['project__title']
+    filter_horizontal = ('frameworks',)
 
 admin.site.register(FrameworkCategory, FrameworkCategoryAdmin)
 admin.site.register(Framework, FrameworkAdmin)
