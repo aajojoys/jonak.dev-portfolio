@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # django app
     "general",
     "project",
+    "about",
 ]
 
 MIDDLEWARE = [
