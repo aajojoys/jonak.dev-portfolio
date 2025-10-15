@@ -1,3 +1,5 @@
+import os, uuid
+
 def model_add(Model, dict_field={}):
     obj = Model.objects.create(**dict_field)
     return obj
@@ -107,3 +109,11 @@ def model_get_or_create(Model, dictfield, defaults):
         created (bool): if instance is created or get
     """
     return Model.objects.get_or_create(**dictfield, defaults=defaults)
+
+def imagefield_upload(instance, filename, img_path):
+    return os.path.join(img_path, filename)
+
+def imagefield_rename_upload(instance, filename, img_path):
+    ext = filename.split('.')[-1]
+    filename = f"{str(uuid.uuid4())}.{ext}"
+    return imagefield_upload(instance, filename, img_path)

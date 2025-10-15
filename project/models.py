@@ -1,22 +1,17 @@
-import os, uuid
+import uuid
 
 from django.db import models
-from django.db.models.deletion import CASCADE
+from utility.model_utils import imagefield_rename_upload, imagefield_upload
 
-MEDIA_ATTACHMENT_RELATIVEPATH = "project/attachment"
-MEDIA_FRAMEWORK_RELATIVEPATH = "project/framework"
+MEDIA_PROJECT_ATTACHMENT_RELATIVEPATH = "project/attachment"
+MEDIA_PROJECT_FRAMEWORK_RELATIVEPATH = "project/framework"
 
 # Create your models here.
-def upload_image(instance, filename, img_path):
-    return os.path.join(img_path, filename)
-
 def upload_project_image(instance, filename):
-    ext = filename.split('.')[-1]
-    filename = f"{str(uuid.uuid4())}.{ext}"
-    return upload_image(instance, filename, MEDIA_ATTACHMENT_RELATIVEPATH)
+    return imagefield_rename_upload(instance, filename, MEDIA_PROJECT_ATTACHMENT_RELATIVEPATH)
 
 def upload_framework_icon(instance, filename):
-    return upload_image(instance, filename, MEDIA_FRAMEWORK_RELATIVEPATH)
+    return imagefield_upload(instance, filename, MEDIA_PROJECT_FRAMEWORK_RELATIVEPATH)
 
 class FrameworkCategory(models.Model):
     name = models.CharField(
