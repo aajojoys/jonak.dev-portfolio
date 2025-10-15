@@ -11,8 +11,12 @@ class FrameworkAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ['category']
 
+class ProjectTagAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'summary', 'description',)
+    list_display = ('title', 'tag', 'summary', 'description',)
     search_fields = ('title',)
 
 class ProjectAttachmentAdmin(admin.ModelAdmin):
@@ -28,6 +32,7 @@ class StackAdmin(admin.ModelAdmin):
 
 admin.site.register(FrameworkCategory, FrameworkCategoryAdmin)
 admin.site.register(Framework, FrameworkAdmin)
+admin.site.register(ProjectTag, ProjectTagAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(ProjectAttachment, ProjectAttachmentAdmin)
 admin.site.register(Stack, StackAdmin)

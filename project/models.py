@@ -1,6 +1,7 @@
 import os, uuid
 
 from django.db import models
+from django.db.models.deletion import CASCADE
 
 MEDIA_ATTACHMENT_RELATIVEPATH = "project/attachment"
 MEDIA_FRAMEWORK_RELATIVEPATH = "project/framework"
@@ -45,6 +46,15 @@ class Framework(models.Model):
     def __str__(self):
         return f"{self.pk} - {self.name} ({self.category})"
 
+class ProjectTag(models.Model):
+    name = models.CharField(
+        max_length=32,
+        unique=True,
+    )
+
+    def __str__(self):
+        return f"{self.pk} - {self.name}"
+
 class Project(models.Model):
     # project info
     id = models.UUIDField(
@@ -62,6 +72,12 @@ class Project(models.Model):
         blank=True,
     )
     description = models.TextField(
+        null=True,
+        blank=True,
+    )
+    tag = models.ForeignKey(
+        'project.ProjectTag',
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
