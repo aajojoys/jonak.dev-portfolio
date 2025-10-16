@@ -79,6 +79,10 @@ class BlogItem(models.Model):
         on_delete=models.CASCADE,
     )
     is_custom = models.BooleanField()
+    # is_default takes default css style corresponding to its HTML tag
+    is_default = models.BooleanField(
+        default=True,
+    )
     # HTML tag name
     tag_name = models.CharField(
         max_length=16,
@@ -90,7 +94,10 @@ class BlogItem(models.Model):
         default=dict,
         blank=True,
     )
-    content = models.TextField()
+    content = models.TextField(
+        null=True,
+        blank=True,
+    )
     attachment = models.ImageField(
         upload_to=upload_item_image,
         null=True,
