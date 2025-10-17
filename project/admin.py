@@ -16,8 +16,9 @@ class ProjectTagAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'tag', 'summary', 'description',)
+    list_display = ('title', 'to_publish', 'tag', 'summary', 'description',)
     search_fields = ('title',)
+    list_filter = ['to_publish']
 
 class ProjectAttachmentAdmin(admin.ModelAdmin):
     list_display = ('project__title', 'title', 'attachment',)

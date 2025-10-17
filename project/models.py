@@ -76,6 +76,9 @@ class Project(models.Model):
         null=True,
         blank=True,
     )
+    to_publish = models.BooleanField(
+        default=True,
+    )
 
     def __str__(self):
         return f"{self.title} ({self.pk})"
