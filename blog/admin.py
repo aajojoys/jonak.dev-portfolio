@@ -18,8 +18,8 @@ class BlogAdmin(admin.ModelAdmin):
     filter_horizontal = ('tags',)
 
 class BlogAttachmentAdmin(admin.ModelAdmin):
-    list_display = ('blog__title', 'attachment')
-    search_fields = ('blog__title',)
+    list_display = ('blog__title', 'title', 'attachment')
+    search_fields = ('title', 'blog__title',)
     list_filter = ['blog__title']
 
 class BlogItemAdmin(admin.ModelAdmin):

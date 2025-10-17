@@ -74,6 +74,11 @@ class BlogAttachment(models.Model):
     attachment = models.ImageField(
         upload_to=upload_blog_image,
     )
+    title = models.CharField(
+        max_length=32,
+        null=True,
+        blank=True,
+    )
 
 class BlogItem(models.Model):
     # if tag_name is null & attr_value is empty -> custom HTML content (stacked tag name)
