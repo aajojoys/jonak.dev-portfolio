@@ -59,6 +59,9 @@ class Blog(models.Model):
     tags = models.ManyToManyField(
         'blog.BlogTag',
     )
+    to_publish = models.BooleanField(
+        default=True,
+    )
 
     def __str__(self):
         return f"{self.title} ({self.pk})"

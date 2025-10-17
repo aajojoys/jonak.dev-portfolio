@@ -12,8 +12,9 @@ class BlogTagAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'create_dt', 'pk', 'summary',)
+    list_display = ('title', 'to_publish', 'category', 'create_dt', 'pk', 'summary',)
     search_fields = ('title', 'summary',)
+    list_filter = ['to_publish']
     filter_horizontal = ('tags',)
 
 class BlogAttachmentAdmin(admin.ModelAdmin):
