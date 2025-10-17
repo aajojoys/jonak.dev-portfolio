@@ -20,8 +20,8 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 class ProjectAttachmentAdmin(admin.ModelAdmin):
-    list_display = ('project__title', 'attachment',)
-    search_fields = ('project__title',)
+    list_display = ('project__title', 'title', 'attachment',)
+    search_fields = ('title', 'project__title')
     list_filter = ['project__title']
 
 class StackAdmin(admin.ModelAdmin):

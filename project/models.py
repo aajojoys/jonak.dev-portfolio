@@ -89,6 +89,11 @@ class ProjectAttachment(models.Model):
     attachment = models.ImageField(
         upload_to=upload_project_image,
     )
+    title = models.CharField(
+        max_length=32,
+        null=True,
+        blank=True,
+    )
 
 class Stack(models.Model):
     # techstack of project (one of more frameworks)
