@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>About Me</title>
+{% endblock title %}
+
+{% block container %}
+<div class="main-content">
+  <div class="header">{{ about_title.value }} &#x1F44B;</div>
+  <div class="portrait" title="It's me : )"><img src="{% static portrait.value %}"></img></div>
+  <div class="desc">{{ about.value|safe }}</div>
+  <div class="title">Contact</div>
+  <div class="desc">{{ contact.value|safe }}</div>
+</div>
+{% endblock container %}
