@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Blog: {{ blog.title }}</title>
+{% endblock title %}
+
+{% block container %}
+<div class="main-content">
+  <!-- <div class="title">{{ blog_detail_title.value }}</div> -->
+  <div class="blog title">"{{ blog.title }}"</div>
+  <div class="blog title-date">&mdash; {{ blog.create_dt|date:"M j, Y" }} &mdash;</div>
+    {% with images|length as size %}
+    {% if size > 0 %}
+      <div class="detail gallery-slider">
+        {% for img in images %}
+        <div class="gallery-slide {% if forloop.first %}show{% endif %}">
+          <div class="gallery-slide-num">{{ forloop.counter }}/{{ size }}</div>
+          {% if img.title %}<div class="gallery-slide-title">{{ img.title }}</div>{% endif %}
+          <img class="gallery-slide-img" src="{{ MEDIA_URL }}{{ img.attachment }}">
+        </div>
+        {% endfor %}
+        {% if size > 1 %}
+        <button class="gallery-slider-prev hide" data-ccounter="0" data-total="{{ size }}" title="Previous">&#10094;</button>
+        <button class="gallery-slider-next show" data-ccounter="0" data-total="{{ size }}" title="Next">&#10095;</button>
+        {% endif %}
+    <!-- ELSE (SKIP if no images) -->
+        <!--   <div class="gallery-slide show"> -->
+        <!--     <div class="gallery-slide-num">0/0</div> -->
+        <!--     <img class="gallery-slide-img no-image" title="No image" src="{% static 'img/icons/no-image.png' %}"> -->
+        <!--   </div> -->
+      </div>
+    {% endif %}
+    {% endwith %}
+  <div class="title blog-content">
+    {{ blog_contents|safe }}
+  </div>
+</div>
+{% endblock container %}
