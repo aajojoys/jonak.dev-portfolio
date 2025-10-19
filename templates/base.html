@@ -1,0 +1,80 @@
+{% load tz %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" chartset="utf-8">
+    <!--
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/basic_tools.css' %}">
+    {% block title %}
+    {% endblock title %}
+    <script type="module" src="{% static 'js/app.js' %}" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="nav-header sticky-top">
+        <div class="nav-left">
+          <div class="nav-item">
+            <span title="KL, Malaysia">
+              {% timezone "Asia/Kuala_Lumpur" %}
+                <div class="current-time">
+                {% now "D H:i" %}, M'sia
+                </div>
+              {% endtimezone "Asia/Kuala_Lumpur" %}
+            </label>
+          </div>
+        </div>
+        <div class="nav-toggle" title="Menu"><img src="{% static 'img/icons/menu.png' %}"></div>
+        <div class="nav-center">
+          <label class="" for="radio-about">
+            <input id="radio-about" type="radio" data-menu="about" name="menu" data-url="{% url 'about' %}" {% if menu == "about" %} checked {% endif %}>
+            <a class="nav-item menu-label" href="{% url 'about' %}">About</a>
+          </label>
+          <label class="" for="radio-blog">
+            <input id="radio-blog" type="radio" name="menu" data-menu="blog" data-url="{% url 'blog' %}" {% if menu == "blog" %} checked {% endif %}>
+            <a class="nav-item menu-label" href="{% url 'blog' %}">Blogs</a>
+          </label>
+          <label class="" for="radio-project">
+            <input id="radio-project" type="radio" name="menu" data-menu="project" data-url="{% url 'project' %}" {% if menu == "project" %} checked {% endif %}>
+            <a class="nav-item menu-label" href="{% url 'project' %}">Projects</a>
+          </label>
+        </div>
+        <div class="nav-right">
+          <div class="nav-item">
+             <div class="themetoggle-icon" title="Theme toggle">
+              {% for i in "12345678" %}
+                <span class="ray"></span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="nav-item contact-link-div" title="{{ github.value }}">
+            <a class="contact-link" target="_blank" href="{{ github.value }}"><img src="{% static 'img/icons/github.png' %}"></a>
+          </div>
+          <div class="nav-item contact-link-div" title="{{ mail.value }}">
+            <a class="contact-link" target="_blank" href="{{ mail.value }}"><img src="{% static 'img/icons/mail.png' %}"></a>
+          </div>
+        </div>
+      </div>
+      <div class="main">
+      {% block container %}
+      {% endblock container %}
+      </div>
+    </div>
+    {% block scripts %}
+    {% endblock scripts %}
+  </body>
+</html>
