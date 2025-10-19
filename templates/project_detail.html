@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Project: {{ project.title }}</title>
+{% endblock title %}
+
+{% block container %}
+<div class="main-content">
+  <!-- <div class="title">{{ project_detail_title.value }}</div> -->
+  <div class="project title">{{ project.title }}</div>
+    {% with images|length as size %}
+    {% if size > 0 %}
+      <div class="detail gallery-slider">
+        {% for img in images %}
+        <div class="gallery-slide {% if forloop.first %}show{% endif %}">
+          <div class="gallery-slide-num">{{ forloop.counter }}/{{ size }}</div>
+          {% if img.title %}<div class="gallery-slide-title">{{ img.title }}</div>{% endif %}
+          <img class="gallery-slide-img" src="{{ MEDIA_URL }}{{ img.attachment }}">
+        </div>
+        {% endfor %}
+        {% if size > 1 %}
+        <button class="gallery-slider-prev hide" data-total="{{ size }}" data-ccounter="0" title="Previous">&#10094;</button>
+        <button class="gallery-slider-next show" data-total="{{ size }}" data-ccounter="0" title="Next">&#10095;</button>
+        {% endif %}
+    <!-- ELSE (SKIP if no images) -->
+        <!-- <div class="gallery-slide show"> -->
+        <!--   <div class="gallery-slide-num">0/0</div> -->
+        <!--   <img class="gallery-slide-img no-image" title="No image" src="{% static 'img/icons/no-image.png' %}"> -->
+        <!-- </div> -->
+      </div>
+    {% endif %}
+    {% endwith %}
+  <br>
+  <div class="title ts-title">
+    <div class="show-option-ts">
+      <span class="show-option-btn show" title="Click to expand" data-key="project_desc">[+]</span>
+      <span class="show-option-btn hide" title="Click to collapse" data-key="project_desc">[-]</span>
+    </div>
+    <span>&nbsp;Techstack:</span>
+  </div>
+  <div class="desc ts-items hide">
+    <div class="stackline">
+      <div class="stackline-cat">System:&nbsp;</div>
+      <div class="stackline-fw">{{ project.tag.name }}</div>
+    </div>
+    {% for cat, fws in category_frameworks.items %}
+    <div class="stackline">
+      <div class="stackline-cat">{{ cat|safe }}:&nbsp;</div>
+      <div class="stackline-fw">{% for fw in fws %}{% if not forloop.first %} / {% endif %}{{ fw }}{% endfor %}</div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="show-option">
+    <div class="desc show">{{ project.summary|safe }} <span class="show-option-btn" title="Click for more" data-key="project_desc">[more]</span></div>
+    <div class="desc hide">{{ project.description|safe }} <span class="show-option-btn" title="Click for less" data-key="project_desc">[less]</span></div>
+  </div>
+</div>
+{% endblock container %}

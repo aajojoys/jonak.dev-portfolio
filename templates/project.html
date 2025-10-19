@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Projects</title>
+{% endblock title %}
+
+{% block container %}
+<div class="main-content">
+  <div class="title">{{ project_title.value }}</div>
+  <div class="title-desc">{{ project_title_desc.value|safe }}</div>
+  <ul class="content-list">
+    {% for project, images in project_attachments.items %}
+    <li class="project content-list-item">
+      <div class="content-list-item-attach">
+        <div class="gallery-slider">
+          {% with images|length as size %}
+            {% if size > 0 %}
+              {% for img in images %}
+              <div class="gallery-slide {% if forloop.first %}show{% endif %}">
+                <div class="gallery-slide-num">{{ forloop.counter }}/{{ size }}</div>
+                <img class="gallery-slide-img" src="{{ MEDIA_URL }}{{ img.attachment }}">
+              </div>
+              {% endfor %}
+              {% if size > 1 %}
+              <button class="gallery-slider-prev hide" data-total="{{ size }}" data-ccounter="0" title="Previous">&#10094;</button>
+              <button class="gallery-slider-next show" data-total="{{ size }}" data-ccounter="0" title="Next">&#10095;</button>
+              {% endif %}
+            {% else %}
+              <div class="gallery-slide show">
+                <div class="gallery-slide-num">0/0</div>
+                <img class="gallery-slide-img no-image" title="No image" src="{% static 'img/icons/no-image.png' %}">
+              </div>
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+      <div class="content-list-item-text">
+        <div class="content-list-item-text-title"><a href="{% url 'project_detail' project.pk %}"><span class="content-list-item-text-title-span">{{ project.title }}</span></a></div>
+        <div class="content-list-item-text-desc">{{ project.summary|safe }}</div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock container %}
