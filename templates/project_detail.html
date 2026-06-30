@@ -34,12 +34,12 @@
   <br>
   <div class="title ts-title">
     <div class="show-option-ts">
-      <span class="show-option-btn show" title="Click to expand" data-key="project_desc">[+]</span>
-      <span class="show-option-btn hide" title="Click to collapse" data-key="project_desc">[-]</span>
+      <span class="show-option-btn hide" title="Click to expand" data-key="project_desc">[+]</span>
+      <span class="show-option-btn show" title="Click to collapse" data-key="project_desc">[-]</span>
     </div>
     <span>&nbsp;Techstack:</span>
   </div>
-  <div class="desc ts-items hide">
+  <div class="desc ts-items show">
     <div class="stackline">
       <div class="stackline-cat">System:&nbsp;</div>
       <div class="stackline-fw">{{ project.tag.name }}</div>
@@ -52,8 +52,8 @@
     {% endfor %}
   </div>
   <div class="show-option">
-    <div class="desc show">{{ project.summary|safe }} <span class="show-option-btn" title="Click for more" data-key="project_desc">[more]</span></div>
-    <div class="desc hide">{{ project.description|safe }} <span class="show-option-btn" title="Click for less" data-key="project_desc">[less]</span></div>
+    <div class="desc hide">{{ project.summary|safe }} <span class="show-option-btn" title="Click for more" data-key="project_desc">[more]</span></div>
+    <div class="desc show">{{ project.description|safe }} <span class="show-option-btn" title="Click for less" data-key="project_desc">[less]</span></div>
   </div>
 </div>
 {% endblock container %}
