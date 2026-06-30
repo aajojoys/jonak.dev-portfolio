@@ -29,9 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = DJANGO_SECRETKEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['jonak.dev', 'www.jonak.dev', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ["https://jonak.dev", "https://www.jonak.dev"]
 
 
 # Application definition
@@ -130,6 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = '/var/www/jonak.dev/static'
 STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
 
 # Default primary key field type
@@ -137,5 +139,9 @@ STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = str(BASE_DIR / 'media/files')
+# MEDIA_ROOT = str(BASE_DIR / 'media/files')
+STATIC_ROOT = '/var/www/jonak.dev/media'
 MEDIA_URL = '/media/'
+# for ip collection
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
