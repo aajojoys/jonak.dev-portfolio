@@ -4,5 +4,5 @@ from download.views import *
 from download.resume_views import ResumeDownloadView
 
 urlpatterns = [
-    path("resume/", ResumeDownloadView.as_view(), name="resume"),
+    path("resume/", ResumeDownloadView.as_view(), name="download_resume"),
 ]
