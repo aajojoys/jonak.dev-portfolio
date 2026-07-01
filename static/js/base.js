@@ -1,4 +1,4 @@
-import { add_dataset_elem, get_client_all_elements, get_client_element, get_dataset_value_base, hide_elem, show_elem, toggle_show_hide_elem } from "./utility.js"
+import { add_dataset_elem, get_client_all_elements, get_client_element, get_dataset_value_base, hide_elem, show_elem, show_hide_elem, toggle_show_hide_elem } from "./utility.js"
 
 const SESSION_THEME_KEY = "theme";
 const TAG_BODY = "body";
@@ -16,6 +16,12 @@ const CLS_SHOWOPTION_BTN = ".show-option-btn";
 const CLS_GALLERY_SLIDER_PREV = ".gallery-slider-prev";
 const CLS_GALLERY_SLIDER_NEXT = ".gallery-slider-next";
 const CLS_GALLERY_SLIDE = ".gallery-slide";
+const ID_FORM_RESUME = "resume-form";
+const CLS_RESUME_LINK = ".resume-link";
+const ID_TURNSTILE = "cf-turnstile";
+const TURNSTILE_RESPONSE = "cf-turnstile-response";
+const CLS_CONTAINER = ".container";
+const CLS_MODALOVERLAY_CONTAINER = ".modal-overlay";
 
 function set_session_theme(theme_val) {
     sessionStorage.setItem(SESSION_THEME_KEY, theme_val);
@@ -52,6 +58,41 @@ function onclick_nav_menu_helper(toggle_elem) {
 function onclick_nav_menu() {
     const toggle_elem = get_client_element(CLS_NAVTOGGLE);
     if (toggle_elem) { toggle_elem.addEventListener("click", () => onclick_nav_menu_helper(toggle_elem)); }
+}
+
+function show_loader(to_show) {
+    const container_elem = get_client_element(CLS_CONTAINER);
+    const modal_elem = get_client_element(CLS_MODALOVERLAY_CONTAINER);
+    to_show ? show_hide_elem(modal_elem, container_elem) : show_hide_elem(container_elem, modal_elem);
+}
+
+function onclick_resume_link() {
+    const resume_link_elem = get_client_element(CLS_RESUME_LINK);
+    const resume_form_elem = document.getElementById(ID_FORM_RESUME);
+    const turnstile_elem = document.getElementById(ID_TURNSTILE);
+    if (!resume_form_elem || !resume_link_elem) { return; }
+    resume_link_elem.addEventListener('click', async (e) => {
+        show_loader(true);
+        e.preventDefault();
+        turnstile.render(turnstile_elem, {
+            sitekey: get_dataset_value_base(turnstile_elem, 'sitekey'),
+            callback: async (token) => {
+                const form_data = new FormData(resume_form_elem);
+                form_data.set(TURNSTILE_RESPONSE, token);
+                const res = await fetch(resume_form_elem.action, {
+                    method: "POST",
+                    body: form_data,
+                })
+                if (!res.ok) {
+                    console.error(await res.text());
+                    return;
+                }
+                const data = await res.json();
+                show_loader(false);
+                if (data) { window.location = data.download_url };
+            }
+        });
+    });
 }
 
 function onlick_show_option_helper(showoption_elem) {
@@ -112,12 +153,14 @@ function onclick_gallery_slider_btn() {
         elem.addEventListener("click", () => onclick_gallery_slider_btn_helper(elem));
     }
 }
- 
+
 export function base_events() {
     set_theme_by_session();
     onclick_theme();
     onclick_nav_menu();
+    onclick_resume_link();
     onclick_show_option();
     onclick_show_option_ts();
     onclick_gallery_slider_btn();
 }
+
