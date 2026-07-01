@@ -46,7 +46,7 @@
 
   .nav-center.show-menu, .nav-right.show-menu {
     display: flex !important;
-    max-width: 150px;
+    max-width: 200px;
   }
 
   .nav-center.show-menu {
@@ -547,4 +547,56 @@ img.content-img {
   color: var(--light-n-dark);
   font-weight: 400;
   font-size: 0.9rem;
+}
+
+.modal-overlay {
+    /*
+    position:fixed;
+    inset:0;
+    :w
+
+    background:rgba(0,0,0,0.5);
+    /* background: var(--background); */
+
+    z-index:1000;
+    /*
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    */
+
+    height: 95vh;
+    width: 95vw;
+}
+
+/*
+.modal-overlay.show {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+*/
+
+.modal{
+    height: 100%;
+    width: 100%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    max-height:90vh;
+
+    overflow-y:hidden;
+    overflow-x:hidden;
+
+    background:var(--background);
+    border-radius:12px;
+    padding:24px;
+}
+
+.modal img {
+    width: 200px;
+    height: 200px;
 }
