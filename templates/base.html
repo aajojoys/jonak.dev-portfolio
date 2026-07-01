@@ -18,11 +18,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/basic_tools.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/app.min.css' %}">
     {% block title %}
     {% endblock title %}
-    <script type="module" src="{% static 'js/app.js' %}" defer></script>
+    <script type="module" src="{% static 'dist/app.min.js' %}" defer></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
   </head>
   <body>
