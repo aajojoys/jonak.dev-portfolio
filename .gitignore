@@ -4,6 +4,7 @@ Pipfile.lock
 .env
 db.sqlite3
 /*media
+*/*attachment
 __pycache__
 /others
 .python-version
