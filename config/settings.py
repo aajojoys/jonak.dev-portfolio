@@ -17,6 +17,8 @@ env = Env()
 env.read_env()
 
 DJANGO_SECRETKEY = env.str("DJANGO_SECRETKEY")
+TURNSTILE_SITEKEY = env.str("TURNSTILE_SITEKEY")
+TURNSTILE_SECRETKEY = env.str("TURNSTILE_SECRETKEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # my apps media purpose
+                'config.context_processors.global_settings',
                 'project.context_processors.media_url_context',
                 'blog.context_processors.media_url_context',
             ],
