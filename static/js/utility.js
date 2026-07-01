@@ -66,7 +66,7 @@ export function show_elem(elem, cls_show=CSS_SHOW, cls_hide=CSS_HIDE) {
 
 export function show_hide_elem(show_this_elem, hide_this_elem, cls_show=CSS_SHOW, cls_hide=CSS_HIDE) {
     if (show_this_elem) { show_elem(show_this_elem, cls_show, cls_hide); }
-    if (hide_this_elem) { hide_elem(hide_this_elem, cls_hide, cls_show); }
+    if (hide_this_elem) { hide_elem(hide_this_elem, cls_show, cls_hide); }
 }
 
 export function toggle_show_hide_elem(elem, cls_show=CSS_SHOW, cls_hide=CSS_HIDE) {
