@@ -23,8 +23,12 @@
     {% block title %}
     {% endblock title %}
     <script type="module" src="{% static 'js/app.js' %}" defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
   </head>
   <body>
+    <div class="modal-overlay hide">
+      <div class="modal"><img class="modal-img" src="{% static 'img/icons/loader.gif' %}"></div>
+    </div>
     <div class="container">
       <div class="nav-header sticky-top">
         <div class="nav-left">
@@ -66,6 +70,13 @@
           </div>
           <div class="nav-item contact-link-div" title="{{ mail.value }}">
             <a class="contact-link" target="_blank" href="{{ mail.value }}"><img src="{% static 'img/icons/mail.png' %}"></a>
+          </div>
+          <div class="nav-item contact-link-div" title="Download resume">
+              <form id="resume-form" method="post" action="{% url 'download_resume' %}">
+                {% csrf_token %}
+                <div id="cf-turnstile" data-sitekey="{{ TURNSTILE_SITEKEY }}" class="div-cf-turnstile" style="display: none;"></div>
+              </form>
+            <a class="contact-link resume-link" href="#"><img src="{% static 'img/icons/doc.png' %}"></a>
           </div>
         </div>
       </div>
