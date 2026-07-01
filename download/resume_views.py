@@ -1,7 +1,8 @@
 import uuid, requests
 from pathlib import Path
 
-from django.conf import settings from django.http import FileResponse, JsonResponse, Http404
+from django.conf import settings
+from django.http import FileResponse, JsonResponse, Http404
 from django.views import View
 from django.core import signing
 
