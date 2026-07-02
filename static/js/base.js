@@ -22,6 +22,7 @@ const ID_TURNSTILE = "cf-turnstile";
 const TURNSTILE_RESPONSE = "cf-turnstile-response";
 const CLS_CONTAINER = ".container";
 const CLS_MODALOVERLAY_CONTAINER = ".modal-overlay";
+let resume_widget_id = null;
 
 function set_session_theme(theme_val) {
     sessionStorage.setItem(SESSION_THEME_KEY, theme_val);
@@ -66,52 +67,74 @@ function show_loader(to_show) {
     to_show ? show_hide_elem(modal_elem, container_elem) : show_hide_elem(container_elem, modal_elem);
 }
 
+async function turnstile_on_success(token) {
+    const controller = new AbortController();
+    const timeout_id = setTimeout(() => controller.abort(), 10000);
+    try {
+        const resume_form_elem = document.getElementById(ID_FORM_RESUME);
+        const form_data = new FormData(resume_form_elem);
+        form_data.set(TURNSTILE_RESPONSE, token);
+        const res = await fetch(resume_form_elem.action, {
+            method: "POST",
+            body: form_data,
+            signal: controller.signal,
+        })
+        if (!res.ok) {
+            alert("Try again later!");
+        }
+        const data = await res.json();
+        if (data) { window.location = data.download_url };
+    } catch(err) {
+        if (err.name === "AbortError") {
+            alert("Try again later!");
+        }  
+    } finally {
+        clearTimeout(timeout_id);
+        show_loader(false);
+        turnstile.reset(resume_widget_id);
+    }
+}
+
+function init_turnstile() {
+    const turnstile_elem = document.getElementById(ID_TURNSTILE);
+
+    if (!turnstile_elem) { return; };
+
+    resume_widget_id = turnstile.render(turnstile_elem, {
+        sitekey: get_dataset_value_base(turnstile_elem, 'sitekey'),
+        execution: "execute",
+        appearance: "interaction-only",
+        callback: turnstile_on_success,
+        "error-callback": () => {
+            show_loader(false);
+            alert("Verification failed. Try again later!");
+        },
+
+        "expired-callback": () => {
+            show_loader(false);
+            alert("Token expired. Try again later!")
+        },
+        "timeout-callback": () => {
+            show_loader(false);
+            alert("Verification timed out. Try again later!")
+        },
+    });
+}
 
 function onclick_resume_link() {
+    init_turnstile();
+    let download_inprogress = false;
     const resume_link_elem = get_client_element(CLS_RESUME_LINK);
     const resume_form_elem = document.getElementById(ID_FORM_RESUME);
-    const turnstile_elem = document.getElementById(ID_TURNSTILE);
-    if (!resume_form_elem || !resume_link_elem || !turnstile_elem) { return; }
-
-    let widget_id= null;
-
-    const turnstile_on_success = async(token) => {
-        const controller = new AbortController();
-        const timeout_id = setTimeout(() => controller.abort(), 10000);
-        try {
-            const form_data = new FormData(resume_form_elem);
-            form_data.set(TURNSTILE_RESPONSE, token);
-            const res = await fetch(resume_form_elem.action, {
-                method: "POST",
-                body: form_data,
-                signal: controller.signal,
-            })
-            if (!res.ok) {
-                alert("Try again later!");
-            }
-            const data = await res.json();
-            if (data) { window.location = data.download_url };
-        } catch(err) {
-            if (err.name === "AbortError") {
-                alert("Try again later!");
-            }  
-        } finally {
-            show_loader(false);
-            clearTimeout(timeout_id);
-        }
-    }
+    if (!resume_form_elem || !resume_link_elem) { return; }
 
     resume_link_elem.addEventListener('click', async (e) => {
+        if (download_inprogress) { return; }
+        download_inprogress = true;
         show_loader(true);
         e.preventDefault();
-        if (widget_id === null) {
-            widget_id = turnstile.render(turnstile_elem, {
-                sitekey: get_dataset_value_base(turnstile_elem, 'sitekey'),
-                callback: turnstile_on_success,
-            });
-        } else {
-            turnstile.reset(widget_id);
-        }
+        turnstile.execute(resume_widget_id);
+        download_inprogress = false;
     });
 }
 
